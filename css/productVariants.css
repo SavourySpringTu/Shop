@@ -1,0 +1,159 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+title{
+    align-items: center;   
+}
+
+header {
+    display: flex;  /* Chuyển header thành flexbox */
+    justify-content: center;  /* Căn giữa nội dung trong header */
+    align-items: center;  /* Căn chỉnh theo chiều dọc */
+    background-color: #1976d2;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#id_exit {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;  /* Đặt vị trí button thoát tuyệt đối */
+    left: 20px;  /* Đặt nút cách trái màn hình một khoảng */
+}
+
+#id_exit:hover {
+    background-color: #e60000;
+}
+
+table {
+    width: 80%;
+    max-width: 800px;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    transition: 0.3s;
+}
+.form-container {
+    grid-template-columns: repeat(2, 1fr); 
+    display: flex; /* Dùng flexbox để căn giữa các phần tử */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa formInput1 và formInput2 */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap; /* Cho phép các phần tử "bẻ" dòng khi thu nhỏ màn hình */
+}
+
+/* formInput1 */
+.formInput1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cột cho formInput1 */
+    gap: 10px;
+    max-width: 800px; /* Giới hạn chiều rộng của formInput1 */
+    width: 100%; /* Giúp nó linh hoạt trên các màn hình khác nhau */
+}
+
+/* formInput2 */
+.formInput2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 50px; /* Giới hạn chiều rộng của formInput2 */
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+
+input[readonly] {
+    background-color: #ddd; /* Màu nền xám nhạt */
+    color: black; /* Màu chữ đậm hơn */
+    font-weight: bold; /* Chữ đậm hơn */
+    border: 1px solid #999; /* Viền rõ ràng hơn */
+}
+#btn_save:disabled {
+    background-color: #ccc;  /* Màu xám nhạt */
+    color: #666
+}
+.button-container {
+    display: flex;
+    width: 100%;
+    max-width: 500px; /* Giới hạn chiều rộng */
+    margin: 20px auto; /* Căn giữa container */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-right: 50px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.lb_image{
+    width: 150px;
+}

@@ -1,0 +1,61 @@
+<html lang="vi">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danh sách đơn hàng</title>
+        <link rel="stylesheet" href="../css/orders.css">
+    </head>
+    <body>
+        <header>
+            <button id="id_exit" onclick="exit()">Thoát</button>
+            QUẢN LÝ ĐƠN HÀNG
+        </header>
+        <div class="form-container">
+            <div class="form-group">
+                <label>Mã đơn hàng</label>
+                <input id="ip_id" type="text" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>Khách hàng</label>
+                <input id="ip_customer" type="text" readonly="true">
+            </div>
+            <div class="form-group">        
+                <label>Phone</label>
+                <input id="ip_phone" type="text" readonly="true">
+            </div>
+            <div class="form-group">        
+                <label>Thời gian</label>
+                <input id="ip_time" type="date" readonly="true">
+            </div>
+            <div class="form-group" id="adress">        
+                <label>Địa chỉ</label>
+                <input id="ip_adress" type="text" readonly="true">
+            </div>
+            <div class="form-group">        
+                <label>Trạng thái</label>
+                <input id="ip_status" type="text" readonly="true">
+            </div>
+        </div>
+
+
+        <div class="button-container">
+            <button id="btn_add" onclick="changeStatusInput(1)">Mở</button><br></br>
+            <button id="btn_save" onclick="insertOrder()" disabled>Lưu</button>
+            <button id="btn_find" onclick="findOrders()" disabled>Tìm</button>
+        </div>
+        <table id="orderList">
+            <tr>
+                <th>Mã</th>
+                <th>Khách hàng</th>
+                <th>Phone</th>
+                <th>Địa chỉ</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+            </tr>
+        </table>
+        <script src="../javascript/orders.js"></script>
+
+    </body>
+</html>

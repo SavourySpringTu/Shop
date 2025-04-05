@@ -1,0 +1,66 @@
+<html lang="vi">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danh chi tiết sản phẩm</title>
+        <link rel="stylesheet" href="../css/productVariants.css">
+    </head>
+    <body>
+        <header>
+            <button id="id_exit" onclick="exit()">Thoát</button>
+            QUẢN LÝ CHI TIẾT SẢN PHẨM
+        </header>
+        <div class="form-container">
+            <div class="formInput1">
+                <div class="form-group">
+                    <label>Tên sản phẩm</label>
+                    <input id="ip_name"type="text" readonly="true">
+                </div>
+                <div class="form-group">
+                    <label>Số lượng</label>
+                    <input id="ip_quantity" type="number" readonly="true">
+                </div>
+                <div class="form-group">
+                    <label>Giá nhập</label>
+                    <input id="ip_cost_price" type="number" readonly="true">
+                </div>
+                <div class="form-group">
+                    <label>Giá bán</label>
+                    <input id="ip_selling_price" type="number" readonly="true">
+                </div>
+                <div class="form-group">
+                    <label>Màu</label>
+                    <select id="ip_color"type="text" disabled></select>
+                </div>
+                <div class="form-group">
+                    <label>Size</label>
+                    <select id="ip_size" type="text" disabled></select>
+                </div>
+            </div>
+            <div class="formInput2">
+                <label style="width: 100px;">Hình ảnh</label>
+                <img id="previewImage" type="number" readonly="true" width="100px" height="100px" onclick="document.getElementById('imageInput').click()"></img>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="chooseImage(event)">
+                <input type="hidden" id="fileNameInput">
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="btn_add" onclick="changeStatusInput(1)">Thêm</button>
+            <button id="btn_save" onclick="insertProductVariant()" disabled>Lưu</button>
+        </div>
+        <table id="productVariantList">
+            <tr>
+                <th>Mã</th>
+                <th>Số lượng</th>
+                <th>Giá nhập</th>
+                <th>Giá bán</th>
+                <th>Màu</th>
+                <th>Kích thước</th>
+                <th>Hình ảnh</th>
+            </tr>
+        </table>
+        <script src="../javascript/productVariants.js"></script>
+
+    </body>
+</html>
