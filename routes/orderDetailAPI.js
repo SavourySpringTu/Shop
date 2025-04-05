@@ -36,7 +36,10 @@ router.post("/insert_order_detail", (req, res) => {
                 return res.status(400).json({ error: 'Sản phẩm đã có trong đơn hàng' });
             } else if (err.message.includes('Số lượng trong kho không đủ')) {
                 return res.status(400).json({ error: 'Số lượng trong kho không đủ' });
-            } else {
+            }else if (err.message.includes('Sản phẩm không tồn tại')) {
+                return res.status(400).json({ error: 'Sản phẩm không tồn tại' });
+            } 
+            else {
                 // Lỗi khác
                 return res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
             }

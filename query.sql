@@ -77,22 +77,42 @@ CREATE PROCEDURE addOrderDetail(
     IN p_quantity INT
 )
 BEGIN
-    -- Bước 1: Thêm bản ghi vào bảng order_detail
-    INSERT INTO order_detail (id_order, id_variant, quantity)
-    VALUES (p_id_order, p_id_variant, p_quantity);
+    DECLARE current_quantity INT;
+    DECLARE count_variant INT;
 
-    -- Bước 2: Cập nhật lại quantity trong bảng product_variant
-    UPDATE product_variants
-    SET quantity = quantity - p_quantity
+    -- 1. Kiểm tra sản phẩm đã tồn tại trong đơn hàng chưa
+    SELECT COUNT(*) INTO count_variant
+    FROM order_detail
+    WHERE id_order = p_id_order AND id_variant = p_id_variant;
+
+    IF count_variant > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Sản phẩm đã có trong đơn hàng';
+    END IF;
+
+    -- 2. Lấy số lượng hiện có trong kho
+    SELECT quantity INTO current_quantity
+    FROM product_variants
     WHERE id_variant = p_id_variant;
-    
-    -- Kiểm tra lỗi nếu quantity trong product_variant nhỏ hơn số lượng cần trừ
-    IF (SELECT quantity FROM product_variants WHERE id_variant = p_id_variant) < 0 THEN
-        -- Nếu số lượng trong product_variant không đủ, trả về lỗi
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không đủ số lượng trong product_variant';
+
+    IF current_quantity IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Sản phẩm không tồn tại';
+    ELSEIF current_quantity < p_quantity THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Số lượng trong kho không đủ';
+    ELSE
+        -- 3. Thêm vào order_detail và cập nhật tồn kho
+        INSERT INTO order_detail (id_order, id_variant, quantity)
+        VALUES (p_id_order, p_id_variant, p_quantity);
+
+        UPDATE product_variants
+        SET quantity = quantity - p_quantity
+        WHERE id_variant = p_id_variant;
     END IF;
 END$$
 
 DELIMITER ;
 
+CALL addOrderDetail(6,1, 2); 
 

@@ -43,6 +43,17 @@ async function insertOrderDetail(){
     const urlParams = new URLSearchParams(window.location.search);
     const id_order = urlParams.get("id_order");
 
+    if (id_variant.value.trim() === "" || isNaN(id_variant.value) || Number(id_variant.value) <= 0) {
+        alert("Vui lòng nhập mã sản phẩm!");
+        id_variant.focus();
+        return false;
+    }
+
+    if (quantity.value.trim() === "" || isNaN(quantity.value) || Number(quantity.value) <= 0) {
+        alert("Vui lòng nhập số lượng!");
+        quantity.focus();
+        return false;
+    }
 
     try {
         let response = await fetch("http://localhost:3000/api/order_detail/insert_order_detail", {

@@ -41,6 +41,11 @@ async function insertProduct(){
             const des = document.getElementById("ip_des").value.trim();
             const image ="/"+ document.getElementById("fileNameInput").value;
 
+            if (name.value.trim() === "") {
+                alert("Vui lòng nhập tên sản phẩm!");
+                return false;
+            }
+
             let response = await fetch("http://localhost:3000/api/products/insert", {
                 method: "POST",
                 headers: {
