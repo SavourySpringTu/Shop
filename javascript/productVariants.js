@@ -77,7 +77,6 @@ async function insertProductVariant() {
     if(validateInputs()!=true){
         return;
     }
-
     const quantity = document.getElementById("ip_quantity").value.trim();
     const cost_price = document.getElementById("ip_cost_price").value.trim();
     const selling_price = document.getElementById("ip_selling_price").value.trim();
@@ -119,6 +118,49 @@ async function insertProductVariant() {
     }
 }
 
+
+async function updateProductVariant() {
+    const idvariantInput = document.getElementById("ip_id_variant");
+    if (idvariantInput.value.trim() === "" || isNaN(idvariantInput.value) || Number(idvariantInput.value) < 0) {
+        alert("Vui lòng chọn sản phẩm");
+        idvariantInput.focus();
+        return ;
+    }
+
+    const id_variant = document.getElementById("ip_id_variant").value.trim();
+    const quantity = document.getElementById("ip_quantity").value.trim();
+    const cost_price = document.getElementById("ip_cost_price").value.trim();
+    const selling_price = document.getElementById("ip_selling_price").value.trim();
+
+    const productData = {
+        id_variant:  Number(id_variant),
+        quantity: Number(quantity),
+        cost_price: Number(cost_price),
+        selling_price: Number(selling_price),
+    };
+
+    try {
+        const response = await fetch("http://localhost:3000/api/product_variants/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Sửa sản phẩm thành công!");
+            location.reload();
+        } else {
+            alert("Lỗi: " + result.error);
+        }
+    } catch (error) {
+        console.error("Lỗi kết nối API:", error);
+        alert("Lỗi kết nối server!");
+    }
+}
 function chooseImage(event){
     const file = event.target.files[0];
     if (file) {
@@ -143,8 +185,30 @@ function displayProductVariants(productVariants) {
             <td>${productVariant.color}</td>
             <td>${productVariant.size}</td>
             <td style="width: 70px; padding:0px"><img src="http://localhost:3000/images/${productVariant.image}" style="width: 100%; margin: 0; display: block;"/><img></td>`;
+            productVariantItem.addEventListener("click", (event) => {
+                let clickedRow = event.currentTarget; // luôn là <tr>, không phụ thuộc vị trí click
+                populateProductVariantInputs(productVariant);
+            });
         productVariantList.appendChild(productVariantItem);
     });
+}
+
+function populateProductVariantInputs(productVariant) {
+    document.getElementById("ip_id_variant").value = productVariant.id_variant;
+    document.getElementById("ip_quantity").value = productVariant.quantity;
+    document.getElementById("ip_cost_price").value = productVariant.cost_price;
+    document.getElementById("ip_selling_price").value = productVariant.selling_price;
+    document.getElementById("ip_color").value = productVariant.color;
+    document.getElementById("ip_size").value = productVariant.size;
+    document.getElementById("ip_name").value = productVariant.name;
+    changeStatusInput(1)
+}
+
+
+function eventBtnThem(status){
+    changeStatusInput(status)
+    clearInputs()
+    
 }
 
 function changeStatusInput(status){
@@ -155,6 +219,7 @@ function changeStatusInput(status){
         document.getElementById("ip_size").disabled = false;
         document.getElementById("ip_color").disabled = false;
         document.getElementById("btn_save").disabled = false;
+        document.getElementById("btn_update").disabled = false;
     }else{
         document.getElementById("ip_name").readOnly = true;
         document.getElementById("ip_quantity").readOnly = true;
@@ -163,7 +228,9 @@ function changeStatusInput(status){
         document.getElementById("ip_size").disabled = true;
         document.getElementById("ip_color").disabled = true;
         document.getElementById("btn_save").disabled = true;
-    }}
+        document.getElementById("btn_update").disabled = true;
+    }
+}
 
     function validateInputs() {
         const quantityInput = document.getElementById("ip_quantity");
@@ -200,6 +267,23 @@ function changeStatusInput(status){
         }
     
         return true; // Nếu hợp lệ
+    }
+
+    function clearInputs() {
+        // Xóa input
+        document.getElementById("ip_id_variant").value = "";
+        document.getElementById("ip_quantity").value = "";
+        document.getElementById("ip_cost_price").value = "";
+        document.getElementById("ip_selling_price").value = "";
+        document.getElementById("ip_image").value = "";
+        document.getElementById("ip_name").value = "";
+    
+        // Reset select về giá trị rỗng (nếu có option rỗng) hoặc option đầu tiên
+        const colorSelect = document.getElementById("ip_color");
+        if (colorSelect) colorSelect.selectedIndex = 0;
+    
+        const sizeSelect = document.getElementById("ip_size");
+        if (sizeSelect) sizeSelect.selectedIndex = 0;
     }
 
     function exit(){

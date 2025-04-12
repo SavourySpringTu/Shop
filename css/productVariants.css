@@ -128,7 +128,7 @@ input[readonly] {
     font-weight: bold; /* Chữ đậm hơn */
     border: 1px solid #999; /* Viền rõ ràng hơn */
 }
-#btn_save:disabled {
+button:disabled {
     background-color: #ccc;  /* Màu xám nhạt */
     color: #666
 }

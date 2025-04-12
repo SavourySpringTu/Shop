@@ -14,6 +14,10 @@
         <div class="form-container">
             <div class="formInput1">
                 <div class="form-group">
+                    <label>Mã sản phẩm</label>
+                    <input id="ip_id_variant"type="text" readonly="true">
+                </div>
+                <div class="form-group">
                     <label>Tên sản phẩm</label>
                     <input id="ip_name"type="text" readonly="true">
                 </div>
@@ -46,8 +50,9 @@
             </div>
         </div>
         <div class="button-container">
-            <button id="btn_add" onclick="changeStatusInput(1)">Thêm</button>
+            <button id="btn_add" onclick="eventBtnThem(1)">Thêm</button>
             <button id="btn_save" onclick="insertProductVariant()" disabled>Lưu</button>
+            <button id="btn_update" onclick="updateProductVariant()" disabled>Sửa</button>
         </div>
         <table id="productVariantList">
             <tr>

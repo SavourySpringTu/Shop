@@ -84,18 +84,6 @@ function formatDate(dateString) {
     return date.toLocaleDateString("vi-VN"); // Định dạng dd/MM/yyyy
 }
 
-function formatDateForInput(dateString) {
-    if (!dateString) return ""; // Kiểm tra null hoặc undefined
-
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-        console.error("Lỗi: Ngày không hợp lệ", dateString);
-        return "";
-    }
-
-    return date.toISOString().split("T")[0]; // Cắt phần yyyy-MM-dd
-}
-
 function changeStatusInput(status){
     if(status==1){
         document.getElementById("ip_id_variant").readOnly = false;
@@ -113,7 +101,7 @@ function setInputOrderDetail(order) {
     document.getElementById("ip_customer").value = order.customer;
     document.getElementById("ip_phone").value = order.phone;
     document.getElementById("ip_adress").value = order.adress;
-    document.getElementById("ip_time").value = formatDateForInput(order.time);
+    document.getElementById("ip_time").value = formatDatatoShow(order.time);
     document.getElementById("ip_status").value = order.status;
 }
 
@@ -169,4 +157,19 @@ function printOrderDetail() {
 
     window.print();
     location.reload(); 
+}
+
+function formatDatatoShow(inputDate) {
+    // Kiểm tra nếu inputDate là một chuỗi hợp lệ
+    if (!inputDate || inputDate === 'undefined') {
+        console.error("Ngày không hợp lệ:", inputDate);
+        return '';
+    }
+    const dateObj = new Date(inputDate);
+
+    const day = String(dateObj.getDate()).padStart(2, '0');  // Đảm bảo ngày có 2 chữ số
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');  // Tháng bắt đầu từ 0, cần cộng thêm 1
+    const year = dateObj.getFullYear();
+
+    return `${day}/${month}/${year}`;  // Trả về 'DD/MM/YYYY'
 }

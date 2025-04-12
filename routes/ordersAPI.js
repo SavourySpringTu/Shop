@@ -14,20 +14,10 @@ router.get("/", (req, res) => {
 
 router.post("/insert", (req, res) => {
     let { customer, phone, adress, status, time } = req.body;
-    
-    console.log("📥 Dữ liệu nhận từ frontend:", req.body); // 🐞 Kiểm tra dữ liệu nhận được
-
-    if (!time) {
-        return res.status(400).json({ error: "⛔ Lỗi: Thiếu trường 'time'" });
-    }
-
+    console.log(req.body)
     try {
-        // Chuyển đổi `time` sang định dạng MySQL (YYYY-MM-DD)
         const dateObj = new Date(time);
-        if (isNaN(dateObj.getTime())) {
-            return res.status(400).json({ error: "ỗi: 'time' không hợp lệ" });
-        }
-        const formattedDate = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD
+        const formattedDate = dateObj.toISOString().split("T")[0];
 
         const query = `
             INSERT INTO orders (customer, phone, adress, status, time) 
@@ -35,13 +25,12 @@ router.post("/insert", (req, res) => {
 
         db.query(query, [customer, phone, adress, status, formattedDate], (err, result) => {
             if (err) {
-                console.error("Lỗi khi chèn vào database:", err); // 🐞 Debug lỗi SQL
+                console.error("Lỗi khi chèn vào database:", err); 
                 return res.status(500).json({ error: err.message });
             }
 
-            console.log("✅ Kết quả query:", result); // 🐞 Kiểm tra kết quả của MySQL
+            console.log("Kết quả query:", result); 
 
-            // Lấy ID đơn hàng vừa tạo
             res.status(201).json({ message: "Thêm đơn hàng thành công!", id_order: result.insertId });
         });
     } catch (error) {
@@ -87,4 +76,17 @@ router.post("/find", (req, res) => {
         res.status(200).json(results);
     });
 });
+
+router.post("/update", async (req, res) => {
+    const { id_order,customer, phone, adress, time,status} = req.body;
+    console.log(customer)
+    const query =` UPDATE orders SET customer=?, phone=?, adress=?, time=?, status=? Where id_order=?`;
+    db.query(query, [customer, phone, adress, time,status, id_order], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(result);
+    });
+});
+
 module.exports = router;

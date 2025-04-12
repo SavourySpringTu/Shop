@@ -92,21 +92,18 @@ label {
 }
 
 input {
+    font-weight: bold; 
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 input[readonly] {
-    background-color: #ddd; /* Màu nền xám nhạt */
-    color: black; /* Màu chữ đậm hơn */
-    font-weight: bold; /* Chữ đậm hơn */
-    border: 1px solid #999; /* Viền rõ ràng hơn */
+    background-color: #ddd; 
+    color: black;
+    font-weight: bold; 
+    border: 1px solid #999; 
 }
 
-button:disabled {
-    background-color: #ccc;  /* Màu xám nhạt */
-    color: #666
-}
 .button-container {
     display: flex;
     width: 100%;
@@ -132,6 +129,12 @@ button:hover {
 
 #adress{
     grid-column: span 2;
+}
+
+#ip_status{
+    height: 34px;
+    font-weight: bold; 
+    border-radius: 4px;
 }
 
 

@@ -33,4 +33,15 @@ router.post("/insert", async (req, res) => {
     });
 });
 
+router.post("/update", async (req, res) => {
+    const { id_variant,quantity, cost_price, selling_price} = req.body;
+    const query =` UPDATE product_variants SET quantity=?, cost_price=?, selling_price=? Where id_variant=?`;
+    db.query(query, [quantity, cost_price, selling_price, id_variant], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(result);
+    });
+});
+
 module.exports = router;

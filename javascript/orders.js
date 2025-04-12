@@ -24,11 +24,8 @@ async function insertOrder(){
             const customer = document.getElementById("ip_customer").value.trim();
             const phone = document.getElementById("ip_phone").value.trim();
             const adress = document.getElementById("ip_adress").value.trim();
-            const time = formatDateFromInput(document.getElementById("ip_time").value.trim()); 
+            const time = document.getElementById("ip_time").value.trim(); 
             const status = 0;
-
-            const requestData = { customer, phone, adress, time, status };
-            console.log("📤 Dữ liệu gửi lên API:", requestData);
 
             let response = await fetch("http://localhost:3000/api/orders/insert", {
                 method: "POST",
@@ -38,13 +35,59 @@ async function insertOrder(){
                 body: JSON.stringify({ customer, phone, adress, time, status})
             });
             let result = await response.json();
-            openOrderDetailsPage(result.id_order);
+            //openOrderDetailsPage(result.id_order);
         } catch (error) {
             console.error("Lỗi thêm đơn hàng:", error);
         }
     }
 }
 
+async function updateOrder() {
+    const id_order = document.getElementById("ip_id");
+    if (id_order.value.trim() === "" || isNaN(id_order.value) || Number(id_order.value) < 0) {
+        alert("Vui lòng chọn mã đơn hàng");
+        idvariantInput.focus();
+        return ;
+    }
+
+    if(validateInputs()==true){
+        const customer = document.getElementById("ip_customer").value.trim();
+        const phone = document.getElementById("ip_phone").value.trim();
+        const adress = document.getElementById("ip_adress").value.trim();
+        const time = document.getElementById("ip_time").value.trim(); 
+        const status = document.getElementById("ip_status").value.trim();
+        console.log(status)
+
+        try {
+            const response = await fetch("http://localhost:3000/api/orders/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id_order: id_order.value.trim(),
+                    customer,
+                    phone,
+                    adress,
+                    time,
+                    status
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Sửa đơn hàng thành công!");
+                location.reload();
+            } else {
+                alert("Lỗi: " + result.error);
+            }
+        } catch (error) {
+            console.error("Lỗi kết nối API:", error);
+            alert("Lỗi kết nối server!");
+        }
+    }
+}
 
 function displayOrders(orders) {
     let orderList = document.getElementById("orderList");
@@ -59,8 +102,21 @@ function displayOrders(orders) {
             <td>${statusOrder[order.status]}</td>
             <td onclick="openOrderDetailsPage(${order.id_order})" style="cursor: pointer; color: blue; text-decoration: underline;">Chi tiết</td>
         `;
+        orderItem.addEventListener("click", (event) => {
+            let clickedRow = event.currentTarget; 
+            populateOrderInputs(order);
+        });
         orderList.appendChild(orderItem);
     });
+}
+
+function populateOrderInputs(order) {
+    document.getElementById("ip_id").value = order.id_order;
+    document.getElementById("ip_adress").value = order.adress;
+    document.getElementById("ip_phone").value = order.phone;
+    document.getElementById("ip_customer").value = order.customer;
+    document.getElementById("ip_time").value = formatToDateForInput(order.time);
+    document.getElementById("ip_status").value = order.status;
 }
 
 function validateInputs() {
@@ -117,57 +173,44 @@ async function findOrders() {
 }
 
 function clearTable() {
-    const table = document.getElementById("orderList");  // Thay "myTable" bằng id thực tế của bảng bạn.
+    const table = document.getElementById("orderList"); 
     const rows = table.getElementsByTagName("tr");
-
-    // Lặp qua các dòng và xóa chúng, bắt đầu từ cuối (để tránh thay đổi chỉ mục khi xóa)
-    while (rows.length > 1) {  // Dòng đầu tiên có thể là tiêu đề nên bỏ qua
-        table.deleteRow(1);  // Xóa dòng thứ 2 trở đi
+    while (rows.length > 1) { 
+        table.deleteRow(1);  
     }
 }
 
-function changeStatusInput(status){
-    if(status ==1){
-        document.getElementById("ip_id").readOnly = false;
-        document.getElementById("ip_customer").readOnly = false;
-        document.getElementById("ip_phone").readOnly = false;
-        document.getElementById("ip_time").readOnly = false;
-        document.getElementById("ip_status").readOnly = false;
-        document.getElementById("ip_adress").readOnly = false;
-        document.getElementById("btn_save").disabled = false;
-        document.getElementById("btn_find").disabled = false;
-    }else{
-        document.getElementById("ip_id").readOnly = true;
-        document.getElementById("ip_customer").readOnly = true;
-        document.getElementById("ip_phone").readOnly = true;
-        document.getElementById("ip_time").readOnly = true;
-        document.getElementById("ip_status").readOnly = true;
-        document.getElementById("ip_adress").readOnly = true;
-        document.getElementById("btn_save").disabled = true;
-        document.getElementById("btn_find").disabled = true;
-    }
+function clearInput(){
+    document.getElementById("ip_id").value = "";
+    document.getElementById("ip_adress").value = "";
+    document.getElementById("ip_phone").value = "";
+    document.getElementById("ip_customer").value = "";
+    document.getElementById("ip_time").value = "";
 }
 
-function formatDateFromInput(inputDate) {
-    const [year, month, day] = inputDate.split("-");
-    return `${day}/${month}/${year}`;  // Trả về 'DD/MM/YYYY'
-}
 
+function exit(){
+    window.location.href = `../Home.html`;
+}
 function formatDatatoShow(inputDate) {
-    // Kiểm tra nếu inputDate là một chuỗi hợp lệ
     if (!inputDate || inputDate === 'undefined') {
         console.error("Ngày không hợp lệ:", inputDate);
         return '';
     }
     const dateObj = new Date(inputDate);
 
-    const day = String(dateObj.getDate()).padStart(2, '0');  // Đảm bảo ngày có 2 chữ số
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');  // Tháng bắt đầu từ 0, cần cộng thêm 1
+    const day = String(dateObj.getDate()).padStart(2, '0'); 
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');  
     const year = dateObj.getFullYear();
 
-    return `${day}/${month}/${year}`;  // Trả về 'DD/MM/YYYY'
+    return `${day}/${month}/${year}`;  
 }
 
-function exit(){
-    window.location.href = `../Home.html`;
+function formatToDateForInput(dateString) {
+    const dateObj = new Date(dateString);  // Chuyển đổi chuỗi ngày thành đối tượng Date
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');  // Tháng bắt đầu từ 0, cần cộng thêm 1
+    const day = String(dateObj.getDate()).padStart(2, '0');  // Đảm bảo ngày có 2 chữ số
+
+    return `${year}-${month}-${day}`;  // Trả về định dạng YYYY-MM-DD
 }
