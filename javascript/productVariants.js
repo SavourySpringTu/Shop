@@ -203,5 +203,5 @@ function changeStatusInput(status){
     }
 
     function exit(){
-        window.location.href = `../views/Products.html`;
+        window.location.href = `../Products.html`;
     }

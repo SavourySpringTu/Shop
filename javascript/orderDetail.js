@@ -43,16 +43,17 @@ async function insertOrderDetail(){
     const urlParams = new URLSearchParams(window.location.search);
     const id_order = urlParams.get("id_order");
 
-    if (id_variant.value.trim() === "" || isNaN(id_variant.value) || Number(id_variant.value) <= 0) {
-        alert("Vui lòng nhập mã sản phẩm!");
-        id_variant.focus();
-        return false;
+    if (id_variant === "" || isNaN(id_variant) || Number(id_variant) <= 0) {
+        alert("Vui lòng nhập mã sản phẩm hợp lệ!");
+        id_variant_input.focus();
+        return;
     }
 
-    if (quantity.value.trim() === "" || isNaN(quantity.value) || Number(quantity.value) <= 0) {
-        alert("Vui lòng nhập số lượng!");
-        quantity.focus();
-        return false;
+    // Kiểm tra quantity
+    if (quantity === "" || isNaN(quantity) || Number(quantity) <= 0) {
+        alert("Vui lòng nhập số lượng hợp lệ!");
+        quantity_input.focus();
+        return;
     }
 
     try {
@@ -132,6 +133,7 @@ function displayOrderDetail(orderDetail) {
             <td>${order.nameSize}</td>
             <td>${order.quantity}</td>
             <td>${order.selling_price}</td>
+            <td style="width: 70px; padding:0px"><img src="http://localhost:3000/images/${order.image}" style="width: 100%; margin: 0; display: block;"/><img></td>
             <td>${totalPrice}</td>
         `;
         orderDetailList.appendChild(orderDetailItem);
@@ -139,7 +141,7 @@ function displayOrderDetail(orderDetail) {
 
     let totalRow = document.createElement("tr");
     totalRow.innerHTML = `
-        <td colspan="6" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+        <td colspan="7" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
         <td style="font-weight: bold;">${totalAmount}</td>
     `;
     orderDetailList.appendChild(totalRow);
@@ -155,7 +157,7 @@ function clearTable() {
 }
 
 function exit(){
-    window.location.href = `../views/Orders.html`;
+    window.location.href = `../Orders.html`;
 }
 
 function printOrderDetail() {

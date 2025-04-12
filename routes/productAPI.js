@@ -11,7 +11,7 @@ router.post("/", (req, res) => {
             A.name, 
             A.des, 
             A.image,
-            COUNT(B.id_variant) AS quantity
+            IFNULL(SUM(B.quantity), 0) AS quantity
         FROM 
             products A 
         LEFT JOIN 
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
         queryParams.push(`%${name}%`);
     }
 
-    query += " GROUP BY A.id_product LIMIT 15;";
+    query += " GROUP BY A.id_product, A.name, A.des, A.image LIMIT 15;";
 
     db.query(query, queryParams, (err, results) => {
         if (err) {

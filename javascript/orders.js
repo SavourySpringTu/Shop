@@ -15,7 +15,7 @@ async function fetchOrders() {
 }
 
 function openOrderDetailsPage(id_order) {
-    window.location.href = `../views/OrderDetail.html?id_order=${id_order}`;
+    window.location.href = `../OrderDetail.html?id_order=${id_order}`;
 }
 
 async function insertOrder(){
@@ -169,5 +169,5 @@ function formatDatatoShow(inputDate) {
 }
 
 function exit(){
-    window.location.href = `../views/Home.html`;
+    window.location.href = `../Home.html`;
 }

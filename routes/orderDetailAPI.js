@@ -6,7 +6,7 @@ router.get("/:id_order", (req, res) => {
     const { id_order } = req.params;
 
     const query = `
-        SELECT B.id_variant, C.name AS nameProduct, D.name AS nameColor, E.name AS nameSize, B.selling_price, A.quantity 
+        SELECT B.id_variant, B.image, C.name AS nameProduct, D.name AS nameColor, E.name AS nameSize, B.selling_price, A.quantity 
         FROM order_detail A
         LEFT JOIN product_variants B ON A.id_variant = B.id_variant
         LEFT JOIN products C ON B.id_product = C.id_product

@@ -64,10 +64,24 @@ INSERT INTO colors(name,rgb) VALUES (N'Màu vàng','#000000');
 INSERT INTO colors(name,rgb) VALUES (N'Màu cam','#000000');
 
 INSERT INTO sizes(name) VALUES (N'S');
+INSERT INTO sizes(name) VALUES (N'XS');
+INSERT INTO sizes(name) VALUES (N'SML');
 INSERT INTO sizes(name) VALUES (N'M');
 INSERT INTO sizes(name) VALUES (N'L');
 INSERT INTO sizes(name) VALUES (N'XL');
 INSERT INTO sizes(name) VALUES (N'XXL');
+INSERT INTO sizes(name) VALUES (N'XXXL');
+INSERT INTO sizes(name) VALUES (N'0');
+INSERT INTO sizes(name) VALUES (N'1');
+INSERT INTO sizes(name) VALUES (N'2');
+INSERT INTO sizes(name) VALUES (N'3');
+INSERT INTO sizes(name) VALUES (N'4');
+INSERT INTO sizes(name) VALUES (N'5');
+INSERT INTO sizes(name) VALUES (N'6');
+INSERT INTO sizes(name) VALUES (N'7');
+INSERT INTO sizes(name) VALUES (N'8');
+INSERT INTO sizes(name) VALUES (N'9');
+INSERT INTO sizes(name) VALUES (N'10');
 
 DELIMITER $$
 

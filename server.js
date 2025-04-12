@@ -1,13 +1,20 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path"); // <- Quan trọng!
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use("/images", express.static(__dirname + "/images"));
 
+// Phục vụ ảnh
+app.use("/images", express.static(path.join(__dirname, "images")));
 
-// Import API từ các file
+// Phục vụ HTML, CSS, JS tĩnh
+app.use(express.static(path.join(__dirname, "views")));
+app.use("/css", express.static(path.join(__dirname, "css")));
+app.use("/javascript", express.static(path.join(__dirname, "javascript")));
+
+// Import các route
 const productRouter = require("./routes/productAPI.js");
 const productVariantsRouter = require("./routes/productVariantAPI.js");
 const colorsRouter = require("./routes/colorsAPI.js");
@@ -15,7 +22,7 @@ const sizesRouter = require("./routes/sizesAPI.js");
 const ordersRouter = require("./routes/ordersAPI.js");
 const orderDetailRouter = require("./routes/orderDetailAPI.js");
 
-// Sử dụng các API
+// Dùng router API
 app.use("/api/products", productRouter);
 app.use("/api/product_variants", productVariantsRouter);
 app.use("/api/colors", colorsRouter);

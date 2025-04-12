@@ -31,7 +31,7 @@ async function fetchProducts() {
 }
 
 function openProductVariantsPage(id_product) {
-    window.location.href = `../views/ProductVariants.html?id_product=${id_product}`;
+    window.location.href = `../ProductVariants.html?id_product=${id_product}`;
 }
 
 async function insertProduct(){
@@ -40,12 +40,6 @@ async function insertProduct(){
             const name = document.getElementById("ip_name").value.trim();
             const des = document.getElementById("ip_des").value.trim();
             const image ="/"+ document.getElementById("fileNameInput").value;
-
-            if (name.value.trim() === "") {
-                alert("Vui lòng nhập tên sản phẩm!");
-                return false;
-            }
-
             let response = await fetch("http://localhost:3000/api/products/insert", {
                 method: "POST",
                 headers: {
@@ -159,6 +153,6 @@ function clearTable() {
 }
 
 function exit(){
-    window.location.href = `../views/Home.html`;
+    window.location.href = `../Home.html`;
 }
 
